@@ -1,6 +1,10 @@
 <?php
     include 'PHPmailer/class.phpmailer.php';
     include 'PHPmailer/class.smtp.php';
+
+
+
+
 // Helper code
 function Guid()
 {
@@ -75,13 +79,14 @@ function melding($melding)
     echo "});";
     echo "</script>";
 }
+
 class dataAccess
 {
     var $servername = "ervenonline.info:32600";
     var $username = "paul";
     var $password = "flush*3";
     var $dbname = "Competentiefolio";
-
+     
     function write_userinfo($userinfo)
     {
         $conn = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
@@ -98,6 +103,39 @@ class dataAccess
         }
         return $sqlResult;
     }
+
+    function write_documentMeta($idUserInfo,$DocNaam,$DocSoort,$DocType){
+        $conn = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
+        $DocId = Guid();
+        $DocDatumTijd = date("Y-m-d H:i:s");
+        $sql = "insert into Documenten (DocId,idUserInfo,DocNaam,DocSoort,DocDatumTijd,DocType) VALUES 
+                ('{$DocId}','{$idUserInfo}','{$DocNaam}','{$DocSoort}','{$DocDatumTijd}','{$DocType}')";
+        $sqlResult = true;
+        $sqlResult = mysqli_query($conn, $sql);
+        // or melding(mysqli_error($conn));
+        if ($sqlResult == false) {
+            melding(mysqli_error($conn));
+            mysqli_close($conn);
+        } else {
+            mysqli_close($conn);
+        }
+        return $sqlResult;
+    }
+
+    function ReadDocPerUser($idUserInfo){
+        $conn = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
+        $sql = "SELECT substring_index(Documenten.DocNaam,'_',-1) as DocNaam, 
+                DocSoorten.DocSoortNaam, Documenten.DocDatumTijd,Documenten.DocType
+                FROM Documenten
+                left join DocSoorten
+                on Documenten.DocSoort=DocSoorten.DocSoortId
+                WHERE idUserInfo = '{$idUserInfo}'
+                ORDER BY Documenten.DocDatumTijd DESC";
+        $result = mysqli_query($conn,$sql);
+        return $result;
+
+    }
+
     function check_email($userinfo)
     {
         $conn = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
@@ -106,11 +144,11 @@ class dataAccess
         return mysqli_num_rows($result);
     }
 
-    function laad_voortgang($userinfo){
-        $conn=mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
-        $sql="select voortgang from Voortgang where UserId = '{$UserId}'";
+    function laad_SoortCodes(){
+        $conn = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
+        $sql = "select * from DocSoorten";
         $result = mysqli_query($conn,$sql);
-        return $result->fect_assoc(); 
+        return $result;
     }
 
     function laad_profiel($UserId)
@@ -146,7 +184,6 @@ class mail
 {
     function sendInlog($email, $pw)
     {
-
         $bericht = "Uw gebruikersnaam is: " . $email . "\r\n Uw wachtwoord is: " . $pw;
         
         $mail = new PHPmailer(true);

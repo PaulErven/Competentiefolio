@@ -3,6 +3,7 @@ session_start();
 if(isset($_SESSION['login_user'])){
 
     include('main.php');
+    // include(dirname(__DIR__).'\dev\main.php');
 
 }else{
     header("location: login.php");

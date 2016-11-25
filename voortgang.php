@@ -19,4 +19,3 @@ $profiel = $db->laad_profiel($_SESSION['UserId']);
 
 
 </section>
-

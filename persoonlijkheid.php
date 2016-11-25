@@ -19,7 +19,7 @@ Onder het kopje 'Tips' vindt u aanwijzingen hoe u de testuitslagen moet opslaan 
 <h1>Persoonskenmerken</h1>
 <p>De testen in dit onderdeel geven inzicht in hoe u als mens omgaat met zaken die betrekking hebben op werksituaties. Ieder mens is uniek en de combinatie van kenmerken bepaalt mede in welke werksituaties u volledig tot uw recht zult komen.Vul de vragenlijsten in bij de onderstaande links 'Loopbaanspiegel' en 'CAPAZ-werk' en lees voordat u begint onder het kopje 'Tips' hoe u de testresultaten moet opslaan. Let op: u kunt deze testen maar &eacute;&eacute;n keer maken.</p>
 
-<a href="\ph\loopbaanspiegel.php">Klik hier om verder te gaan</a>
+<a href="<?php echo $root; ?>ph\loopbaanspiegel.php">Klik hier om verder te gaan</a>
 
 
 

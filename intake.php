@@ -43,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         melding($error);
     }
 }
+
+
+
 ?>
 
 <section id="content">
@@ -66,6 +69,9 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     <input id="gedoortedag" name="geboortedag" type="number" class="geboorteinput" min="1" max="31"  required >
     <input id="geboortemaand" name = "geboortemaand" type="number" class="geboorteinput" min="1" max = "12"  required>
     <input id="geboortejaar" name="geboortejaar" type="number" class="geboorteinput" style="width:75px;"  required>
-    <input name="submit" type="submit" value=" OK ">
+    <input name="submit" name="ok" type="submit" value=" OK "></br>
+    
 </form>
+
+
 </section>
